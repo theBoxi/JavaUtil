@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="jar" name="JavaUtil">
+    <property name="project.root" location="./" />
+    <property name="src.dir" location="${project.root}/src/" />
+    <property name="bin.dir" location="${project.root}/bin/" />
+	<property name="build.dir" location="${project.root}/build/" />
+	
+	<property name="javaUtil.jar" location="${build.dir}/JavaUtil.jar" />
+	
+	<target name="compile">
+		<mkdir dir="${bin.dir}" />
+		<javac srcdir="${src.dir}" destdir="${bin.dir}"/>
+    </target>
+	
+	<target name="jar" depends="compile">
+		<mkdir dir="${build.dir}" />
+		<jar destfile="${javaUtil.jar}" basedir="${bin.dir}" />
+	</target>
+	
+    <target name="clean" description="Clean Project">
+        <delete dir="${bin.dir}" />
+    	<delete dir="${build.bin.dir}" />
+    </target>
+</project>
