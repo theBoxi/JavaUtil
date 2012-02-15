@@ -1,53 +1,31 @@
 package ch.boxi.javaUtil.id;
 
-public class FormattedID extends PrefixedID{
+import ch.boxi.javaUtil.id.Format.IDFormat;
+
+public abstract class FormattedID extends AbstractValidationID{
 	private static final long serialVersionUID = -2550885611584416746L;
 
-	protected final String format;
+	protected final IDFormat format;
 		
-	/**
-	 * format like {prefix|-}0##.###-###
-	 * where: 
-	 * 	-  {prefix} will be replaced with the prefix and every thing behind the | in {prefx|ABC} is only printed if a prefix is set.
-	 *  -  0 marks that the number is filled with leading zeros
-	 *  -  # marks a singel digit
-	 *  -  9 marks the place where to print the offcut
-	 *  
-	 *  Exp: 
-	 *     format: "{prefix|-}0##.###.###"
-	 *     prefix: "PID"
-	 *     dbRepresentive: "1234"
-	 *     \=> PID-000.001.234
-	 *     
-	 *     format: "{prefix|-}###.###.###"
-	 *     prefix: ""
-	 *     dbRepresentive: "1234"
-	 *     \=> .1.234
-	 *     
-	 *     format: "{prefix}-##.##.9"
-	 *     prefix: "PID"
-	 *     dbRepresentive: "123456789"
-	 *     \=> PID-12.34.56789
-	 *     
-	 *     @param prefix			value to identify the type of the ID
-	 *     @param dbRepresentive 	primary key from DB
-	 *     @param format			as described above
-	 */
-	public FormattedID(String prefix, long dbRepresentive, String format) {
+	public FormattedID(String prefix, long dbRepresentive, IDFormat format) {
 		super(prefix, dbRepresentive);
 		this.format = format;
+		if(!isValid()){
+			throw new ValidationException(dbRepresentiv + " is not a valid ID for format: " + format.getFormat());
+		}
+	}
+	
+	public IDFormat getFormat(){
+		return format;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return Long.toString(dbRepresentiv).length() <= format.countDigits();
 	}
 	
 	@Override
 	public String toString(){
-		return format;
+		return format.formatID(this);
 	}
-
-	@Override
-	public boolean isValid(long id) {
-		return Long.toString(dbRepresentiv).length() <= FormatHelper.countDigits(format);
-	}
-	
-	
-
 }
