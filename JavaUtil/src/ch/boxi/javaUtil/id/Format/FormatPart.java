@@ -15,4 +15,6 @@ public abstract class FormatPart implements Comparable<FormatPart>{
 	public int compareTo(FormatPart arg0) {
 		return Integer.valueOf(position).compareTo(Integer.valueOf(arg0.position));
 	}
+	
+	public abstract FormatPart clone();
 }

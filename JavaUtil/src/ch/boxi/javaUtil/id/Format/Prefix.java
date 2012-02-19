@@ -18,4 +18,13 @@ public class Prefix extends FormatPart{
 		}
 		return "";
 	}
+
+	@Override
+	public FormatPart clone() {
+		Prefix clone = new Prefix(position);
+		clone.PrePrefix = PrePrefix;
+		clone.Prefix = Prefix;
+		clone.Sufix = Sufix;
+		return clone;
+	}
 }

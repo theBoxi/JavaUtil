@@ -119,12 +119,13 @@ public class SimpleIDFormat implements IDFormat{
 
 	@Override
 	public String formatID(BaseID id) {
+		LinkedList<FormatPart> partClones = cloneParts();
 		String idString = Long.toString(id.getLongValue());
 		if(countDigits() < idString.length()){
 			throw new FormatException("id to long");
 		}
 		int idStringPointer = idString.length() - 1;
-		Iterator<FormatPart> iterator = parts.descendingIterator();
+		Iterator<FormatPart> iterator = partClones.descendingIterator();
 		while(iterator.hasNext()){
 			FormatPart part = iterator.next();
 			if(part.isDigit()){
@@ -141,9 +142,17 @@ public class SimpleIDFormat implements IDFormat{
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		for(FormatPart part: parts){
+		for(FormatPart part: partClones){
 			sb.append(part.toString());
 		}
 		return sb.toString();
+	}
+	
+	private LinkedList<FormatPart> cloneParts(){
+		LinkedList<FormatPart> newParts = new LinkedList<FormatPart>();
+		for(FormatPart part: parts){
+			newParts.add(part.clone());
+		}
+		return newParts;
 	}
 }

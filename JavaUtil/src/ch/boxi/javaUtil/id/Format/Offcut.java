@@ -18,4 +18,9 @@ public class Offcut extends FormatPart{
 		}
 		return "";
 	}
+
+	@Override
+	public FormatPart clone() {
+		return new Offcut(position);
+	}
 }

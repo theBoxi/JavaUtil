@@ -11,4 +11,9 @@ public class NullPart extends FormatPart {
 		return "";
 	}
 
+	@Override
+	public FormatPart clone() {
+		return new NullPart(position);
+	}
+
 }

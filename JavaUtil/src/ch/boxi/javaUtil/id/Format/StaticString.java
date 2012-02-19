@@ -11,4 +11,11 @@ public class StaticString extends FormatPart{
 	public String toString(){
 		return string;
 	}
+
+	@Override
+	public FormatPart clone() {
+		StaticString clone = new StaticString(position);
+		clone.string = string;
+		return clone;
+	}
 }

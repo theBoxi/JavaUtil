@@ -3,7 +3,6 @@ package ch.boxi.javaUtil.id.Format;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import ch.boxi.javaUtil.id.BaseID;
 import ch.boxi.javaUtil.id.Format.SimpleIDFormat;
 import ch.boxi.javaUtil.id.Format.Prefix;
 import static org.junit.Assert.*;
@@ -125,12 +124,4 @@ public class SimpleIDFormatTest {
 		assertEquals("SCN-12.345", idFormat.formatID(new SimpleID(12345)));
 		assertEquals("SCN-1.234", idFormat.formatID(new SimpleID(1234)));
 	}
-	
-	public class SimpleID extends BaseID{
-		private static final long serialVersionUID = -669297720069697713L;
-		
-		public SimpleID(long dbRepresentive) {
-			super(dbRepresentive);
-		}
-	};
 }

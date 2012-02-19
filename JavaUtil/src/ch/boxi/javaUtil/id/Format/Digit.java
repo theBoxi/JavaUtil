@@ -16,4 +16,9 @@ public class Digit extends FormatPart{
 	public String toString(){
 		return digit;
 	}
+
+	@Override
+	public FormatPart clone() {
+		return new Digit(position);
+	}
 }
