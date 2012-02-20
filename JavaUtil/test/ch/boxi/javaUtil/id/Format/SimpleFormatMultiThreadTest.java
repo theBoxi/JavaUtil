@@ -19,7 +19,7 @@ import ch.boxi.javaUtil.map.SimpleMapEntry;
 public class SimpleFormatMultiThreadTest {
 	
 	private List<SimpleFormatRunner> runners = new LinkedList<SimpleFormatRunner>();
-	private IDFormat format = new SimpleIDFormat("##########", "");
+	private IDFormat format = new SimpleIDFormat("##########");
 	private boolean errorFound = false;
 	
 	@Before

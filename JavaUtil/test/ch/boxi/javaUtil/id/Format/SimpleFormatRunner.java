@@ -19,7 +19,7 @@ public class SimpleFormatRunner implements Runnable{
 	@Override
 	public void run() {
 		for(Entry<BaseID, String> entry: idToExpected.entrySet()){
-			String value = format.formatID(entry.getKey());
+			String value = format.formatID(entry.getKey(), "");
 			if(!entry.getValue().equals(value)){
 				test.errorFound();
 			}

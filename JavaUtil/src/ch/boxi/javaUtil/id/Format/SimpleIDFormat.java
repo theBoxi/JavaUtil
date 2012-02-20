@@ -9,20 +9,46 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.boxi.javaUtil.id.BaseID;
+import ch.boxi.javaUtil.id.PrefixedID;
 
+/**
+ * format like {pre|prefix|suf}0##.###-###
+ * where: 
+ * 	-  {prefix} will be replaced with the prefix and every thing behind the | in {prefx|ABC} is only printed if a prefix is set.
+ *  -  0 marks that the number is filled with leading zeros
+ *  -  # marks a singel digit
+ *  
+ *  <b>!!! SimpleIDFormat is not threadSafe !!!</b>
+ *  
+ *  Exp: 
+ *     format: "{prefix|-}0##.###.###"
+ *     prefix: "PID"
+ *     dbRepresentive: "1234"
+ *     \=> PID-000.001.234
+ *     
+ *     format: "{prefix|-}###.###.###"
+ *     prefix: ""
+ *     dbRepresentive: "1234"
+ *     \=> .1.234
+ *     
+ *     format: "0########"
+ *     prefix: ""
+ *     dbRepresentive: "1234"
+ *     \=> 000001234
+ */
 public class SimpleIDFormat implements IDFormat{
 	
 	private String format;
-	private String idPrefix;
 	private boolean fillInLeadingZeros = false;
 	private LinkedList<FormatPart> parts = new LinkedList<FormatPart>();
+	private Prefix prefixPart = null;
 	
-	public SimpleIDFormat(String format, String idPrefix){
+	public SimpleIDFormat(String format){
 		this.format = format;
-		this.idPrefix = idPrefix;
 		parseFormat();
 	}
 	
+	@Override
 	public int countDigits(){
 		int count = 0;
 		for(FormatPart part: parts){
@@ -33,21 +59,23 @@ public class SimpleIDFormat implements IDFormat{
 		return count;
 	}
 	
+	@Override
+	public String getFormat(){
+		return format;
+	}
+	
 	Prefix parseFormatPrefix(String formatSubString){
 		Prefix returnPrefix = new Prefix(0);
-		if(StringUtils.isNotEmpty(idPrefix)){
-			Pattern pattern = Pattern.compile("(\\{(.*)\\|?prefix\\|?(.*)\\})");
-			Matcher matcher = pattern.matcher(formatSubString);
-			if(matcher.matches()){
-				int position = format.indexOf(matcher.group(1));
-				returnPrefix = new Prefix(position);
-				returnPrefix.PrePrefix = matcher.group(2);
-				if(StringUtils.isNotEmpty(returnPrefix.PrePrefix)){
-					returnPrefix.PrePrefix = unquot(returnPrefix.PrePrefix.substring(0, returnPrefix.PrePrefix.length()-1));
-				}
-				returnPrefix.Sufix = unquot(matcher.group(3));
-				returnPrefix.Prefix = idPrefix;
+		Pattern pattern = Pattern.compile("(\\{(.*)\\|?prefix\\|?(.*)\\})");
+		Matcher matcher = pattern.matcher(formatSubString);
+		if(matcher.matches()){
+			int position = format.indexOf(matcher.group(1));
+			returnPrefix = new Prefix(position);
+			returnPrefix.PrePrefix = matcher.group(2);
+			if(StringUtils.isNotEmpty(returnPrefix.PrePrefix)){
+				returnPrefix.PrePrefix = unquot(returnPrefix.PrePrefix.substring(0, returnPrefix.PrePrefix.length()-1));
 			}
+			returnPrefix.Sufix = unquot(matcher.group(3));
 		}
 		return returnPrefix;
 	}
@@ -92,7 +120,8 @@ public class SimpleIDFormat implements IDFormat{
 				part = new Digit(i);
 			}else if(charArray[i] == '{'){
 				int end = findNextUnquotedCharInFormat(i, '}');
-				part = parseFormatPrefix(format.substring(i, end+1));
+				prefixPart = parseFormatPrefix(format.substring(i, end+1)); 
+				part = prefixPart; 
 				i = end;
 			}else{
 				StaticString ssPart = new StaticString(i);
@@ -118,12 +147,13 @@ public class SimpleIDFormat implements IDFormat{
 	}
 
 	@Override
-	public String formatID(BaseID id) {
+	public String formatID(BaseID id, String prefix) {
 		LinkedList<FormatPart> partClones = cloneParts();
 		String idString = Long.toString(id.getLongValue());
 		if(countDigits() < idString.length()){
 			throw new FormatException("id to long");
 		}
+		setPrefixIntoClonedParts(partClones, prefix);
 		int idStringPointer = idString.length() - 1;
 		Iterator<FormatPart> iterator = partClones.descendingIterator();
 		while(iterator.hasNext()){
@@ -148,11 +178,30 @@ public class SimpleIDFormat implements IDFormat{
 		return sb.toString();
 	}
 	
+	private void setPrefixIntoClonedParts(LinkedList<FormatPart> clonedParts, String prefix){
+		for(FormatPart part: clonedParts){
+			if(part.isPrefix()){
+				Prefix prefixPart = (Prefix) part;
+				prefixPart.Prefix = prefix;
+			}
+		}
+	}
+	
 	private LinkedList<FormatPart> cloneParts(){
 		LinkedList<FormatPart> newParts = new LinkedList<FormatPart>();
 		for(FormatPart part: parts){
 			newParts.add(part.clone());
 		}
 		return newParts;
+	}
+
+	@Override
+	public String formatID(PrefixedID id){
+		return formatID(id, id.getPrefix());
+	}
+	
+	@Override
+	public String toString(){
+		return format;
 	}
 }

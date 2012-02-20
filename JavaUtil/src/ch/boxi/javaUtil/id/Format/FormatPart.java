@@ -16,5 +16,9 @@ public abstract class FormatPart implements Comparable<FormatPart>{
 		return Integer.valueOf(position).compareTo(Integer.valueOf(arg0.position));
 	}
 	
+	public boolean isPrefix(){
+		return false;
+	}
+	
 	public abstract FormatPart clone();
 }

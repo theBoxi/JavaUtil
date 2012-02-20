@@ -27,4 +27,9 @@ public class Prefix extends FormatPart{
 		clone.Sufix = Sufix;
 		return clone;
 	}
+	
+	@Override
+	public boolean isPrefix(){
+		return true;
+	}
 }
