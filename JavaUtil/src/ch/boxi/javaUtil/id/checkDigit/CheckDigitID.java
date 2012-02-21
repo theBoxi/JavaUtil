@@ -3,16 +3,22 @@ package ch.boxi.javaUtil.id.checkDigit;
 import ch.boxi.javaUtil.id.AbstractValidationID;
 
 public abstract class CheckDigitID extends AbstractValidationID {
+	private static final long serialVersionUID = -5361886048369968087L;
 
-	public CheckDigitID(String prefix, long dbRepresentive) {
+	protected CheckDigitAlgorythm algorythm;
+	
+	public CheckDigitID(CheckDigitAlgorythm algorythm, String prefix, long dbRepresentive) {
 		super(prefix, dbRepresentive);
-		// TODO Auto-generated constructor stub
+		this.algorythm = algorythm;
+	}
+	
+	public CheckDigitAlgorythm getCheckDigitAlgorythm(){
+		return algorythm;
 	}
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return algorythm.isValidID(dbRepresentiv);
 	}
 
 }
