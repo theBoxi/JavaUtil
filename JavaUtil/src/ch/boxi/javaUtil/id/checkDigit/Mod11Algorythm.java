@@ -17,6 +17,19 @@ public class Mod11Algorythm implements CheckDigitAlgorythm {
 		return number;
 	}
 	
+	@Override
+	public long getNumber(long id) {
+		long checkdigit = id % 10;
+		long number = (id - checkdigit) / 10;
+		return number;
+	}
+
+	@Override
+	public long extractCheckDigit(long id) {
+		long checkdigit = id % 10;
+		return checkdigit;
+	}
+	
 	/**
 	 * Calculate the CheckDigit for the id
 	 * @param id real number without checkdigit in it
@@ -39,5 +52,4 @@ public class Mod11Algorythm implements CheckDigitAlgorythm {
 		}
 		return checkDigit;
 	}
-
 }
