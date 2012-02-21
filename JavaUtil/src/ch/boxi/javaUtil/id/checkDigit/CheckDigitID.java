@@ -15,6 +15,14 @@ public abstract class CheckDigitID extends AbstractValidationID {
 	public CheckDigitAlgorythm getCheckDigitAlgorythm(){
 		return algorythm;
 	}
+	
+	public long getCheckDigit(){
+		return algorythm.extractCheckDigit(dbRepresentiv);
+	}
+	
+	public long getNumber(){
+		return algorythm.getNumber(dbRepresentiv);
+	}
 
 	@Override
 	public boolean isValid() {
