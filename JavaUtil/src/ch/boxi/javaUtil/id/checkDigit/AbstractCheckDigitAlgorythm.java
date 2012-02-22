@@ -4,8 +4,8 @@ public abstract class AbstractCheckDigitAlgorythm implements CheckDigitAlgorythm
 
 	@Override
 	public boolean isValidID(long id) {
-		long checkdigit = id % 10;
-		long number = (id - checkdigit) / 10;
+		long checkdigit = id % getDigitMultiplicator();
+		long number = (id - checkdigit) / getDigitMultiplicator();
 		long calculatedCheckDigit = calcCheckDigit(number);
 		return checkdigit == calculatedCheckDigit;
 	}
@@ -13,21 +13,26 @@ public abstract class AbstractCheckDigitAlgorythm implements CheckDigitAlgorythm
 	@Override
 	public long AddCheckDigit(long id) {
 		long checkDigit = calcCheckDigit(id);
-		long number = id * 10 + checkDigit;
+		long number = id * getDigitMultiplicator() + checkDigit;
 		return number;
 	}
 	
 	@Override
 	public long getNumber(long id) {
-		long checkdigit = id % 10;
-		long number = (id - checkdigit) / 10;
+		long checkdigit = id % getDigitMultiplicator();
+		long number = (id - checkdigit) / getDigitMultiplicator();
 		return number;
 	}
 
 	@Override
 	public long extractCheckDigit(long id) {
-		long checkdigit = id % 10;
+		long checkdigit = id % getDigitMultiplicator();
 		return checkdigit;
+	}
+	
+	private long getDigitMultiplicator(){
+		Double pow = Math.pow(10, getCheckDigitSize());
+		return pow.longValue(); 
 	}
 
 	/**
@@ -35,12 +40,5 @@ public abstract class AbstractCheckDigitAlgorythm implements CheckDigitAlgorythm
 	 * @param id real number without checkdigit in it
 	 * @return the checkdigit
 	 */
-	public abstract long calcCheckDigit(long id);
-	
-	/**
-	 * Returns the count of digits the check produces
-	 * @return
-	 */
-	public abstract long getCheckDigitSize();
-	
+	public abstract long calcCheckDigit(long id);	
 }

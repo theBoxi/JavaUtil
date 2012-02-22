@@ -28,4 +28,10 @@ public interface CheckDigitAlgorythm {
 	 * @return ID-With Checkdigits
 	 */
 	public long AddCheckDigit(long id);
+	
+	/**
+	 * Returns the count of checkDigits
+	 * @return
+	 */
+	public long getCheckDigitSize();
 }
