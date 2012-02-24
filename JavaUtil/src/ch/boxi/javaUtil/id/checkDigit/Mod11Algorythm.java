@@ -8,7 +8,7 @@ public class Mod11Algorythm extends AbstractCheckDigitAlgorythm{
 		long sum = 0;
 		for(int i = 0; i < idString.length(); i++){
 			long digit = Long.parseLong(idString.substring(i, i+1));
-			int quantifier = i+2;
+			int quantifier = i+1;
 			sum += quantifier * digit;
 		}
 		long modulo11 = sum % 11;
