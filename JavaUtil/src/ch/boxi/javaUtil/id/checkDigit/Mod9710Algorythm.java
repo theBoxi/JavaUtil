@@ -12,6 +12,17 @@ package ch.boxi.javaUtil.id.checkDigit;
  */
 public class Mod9710Algorythm extends AbstractCheckDigitAlgorythm{
 
+	/*
+	 * For realy big Numbers it is possible to split the numbers in 9 Digit numbers an mod97 it each alone
+	 * 
+	 * 200800000970375700131400 % 97 = 10
+	 * 
+	 * 200800000970375700131400 will be 200800000 97037570 0131400
+	 * 200800000 % 97 = 9   aad this 9 to the next numberblock
+	 * 997037570 % 97 = 81  and the same again
+	 * 810131400 % 97 = 10  -> finished
+	 */
+	
 	@Override
 	public long calcCheckDigit(long id) {
 		long checkDigits = mod(98 - mod(id * 100, 97), 97);
