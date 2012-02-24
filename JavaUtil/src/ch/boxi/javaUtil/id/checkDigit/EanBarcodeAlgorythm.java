@@ -1,5 +1,15 @@
 package ch.boxi.javaUtil.id.checkDigit;
 
+/**
+ * Die Prüfziffer der EAN-Nummern (13. Ziffer).
+ * Berechnet sich, indem man die ersten zwölf Ziffern abwechselnd mit 1 und 3 multipliziert (links mit 1 anfangen) 
+ * und diese Produkte summiert. Die Prüfziffer ist die Differenz der Summe zum nächsten Vielfachen von 10. Falls 
+ * die Summe durch 10 teilbar ist, ist die Prüfziffer die 0.
+ * Bei ILN- oder NVE-Nummern wird dasselbe Verfahren angewendet.
+ * 
+ * @author tzhbosa5
+ *
+ */
 public class EanBarcodeAlgorythm extends AbstractCheckDigitAlgorythm{
 
 	@Override
