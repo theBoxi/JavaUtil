@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.checkDigit;
+package ch.boxi.javaUtil.id.decorator.checkdigit.algorythms;
 
 public interface CheckDigitAlgorythm {
 	/**

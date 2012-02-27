@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id;
+package ch.boxi.javaUtil.id.decorator.format;
 
 public class FormatHelper {
 	public static int countDigits(String format){

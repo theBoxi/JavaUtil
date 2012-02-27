@@ -1,4 +1,5 @@
-package ch.boxi.javaUtil.id.checkDigit;
+package ch.boxi.javaUtil.id.decorator.checkdigit.algorythms;
+
 
 public class Mod11Algorythm extends AbstractCheckDigitAlgorythm{
 

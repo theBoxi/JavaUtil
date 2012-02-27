@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format.parts;
 
 public class StaticString extends FormatPart{
 	public String string;

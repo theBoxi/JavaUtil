@@ -1,4 +1,5 @@
-package ch.boxi.javaUtil.id.checkDigit;
+package ch.boxi.javaUtil.id.decorator.checkdigit.algorythms;
+
 
 /**
  * ISO 7064 Mod 97,10

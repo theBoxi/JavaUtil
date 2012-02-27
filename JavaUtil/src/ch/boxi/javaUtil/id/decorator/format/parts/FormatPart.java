@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format.parts;
 
 public abstract class FormatPart implements Comparable<FormatPart>{
 	public int position;

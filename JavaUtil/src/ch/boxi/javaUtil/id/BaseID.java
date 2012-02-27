@@ -1,9 +1,7 @@
 package ch.boxi.javaUtil.id;
 
-import java.io.Serializable;
 
-
-public abstract class BaseID implements Comparable<BaseID>, Serializable{
+public abstract class BaseID implements ID{
 	private static final long serialVersionUID = 333922354029022637L;
 
 	protected final Long dbRepresentiv;
@@ -12,6 +10,7 @@ public abstract class BaseID implements Comparable<BaseID>, Serializable{
 		this.dbRepresentiv = dbRepresentive;
 	}
 	
+	@Override
 	public long getLongValue(){
 		return dbRepresentiv;
 	}
@@ -22,8 +21,8 @@ public abstract class BaseID implements Comparable<BaseID>, Serializable{
 	}
 
 	@Override
-	public int compareTo(BaseID o) {
-		return dbRepresentiv.compareTo(o.dbRepresentiv);
+	public int compareTo(ID o) {
+		return dbRepresentiv.compareTo(o.getLongValue());
 	}
 
 	@Override

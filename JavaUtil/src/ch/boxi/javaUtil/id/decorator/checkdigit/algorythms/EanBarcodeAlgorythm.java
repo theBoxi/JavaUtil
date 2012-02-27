@@ -1,4 +1,5 @@
-package ch.boxi.javaUtil.id.checkDigit;
+package ch.boxi.javaUtil.id.decorator.checkdigit.algorythms;
+
 
 /**
  * Die Prüfziffer der EAN-Nummern (13. Ziffer).

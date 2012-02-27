@@ -3,6 +3,10 @@ package ch.boxi.javaUtil.id.checkDigit;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.CheckDigitAlgorythm;
+import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.Mod11Algorythm;
+import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.Mod9710Algorythm;
+
 public class CheckDigitAlgorythmTeset {
 
 	@Test

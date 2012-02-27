@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,8 +8,14 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.boxi.javaUtil.id.BaseID;
-import ch.boxi.javaUtil.id.PrefixedID;
+import ch.boxi.javaUtil.id.ID;
+import ch.boxi.javaUtil.id.decorator.DecoratorType;
+import ch.boxi.javaUtil.id.decorator.IDBaseDecorator;
+import ch.boxi.javaUtil.id.decorator.format.parts.Digit;
+import ch.boxi.javaUtil.id.decorator.format.parts.FormatPart;
+import ch.boxi.javaUtil.id.decorator.format.parts.NullPart;
+import ch.boxi.javaUtil.id.decorator.format.parts.Prefix;
+import ch.boxi.javaUtil.id.decorator.format.parts.StaticString;
 
 /**
  * format like {pre|prefix|suf}0##.###-###
@@ -147,12 +153,13 @@ public class SimpleIDFormat implements IDFormat{
 	}
 
 	@Override
-	public String formatID(BaseID id, String prefix) {
+	public String formatID(ID id) {
 		LinkedList<FormatPart> partClones = cloneParts();
 		String idString = Long.toString(id.getLongValue());
 		if(countDigits() < idString.length()){
 			throw new FormatException("id to long");
 		}
+		String prefix = getPrefixFromDecoratir(id);
 		setPrefixIntoClonedParts(partClones, prefix);
 		int idStringPointer = idString.length() - 1;
 		Iterator<FormatPart> iterator = partClones.descendingIterator();
@@ -178,6 +185,19 @@ public class SimpleIDFormat implements IDFormat{
 		return sb.toString();
 	}
 	
+	private String getPrefixFromDecoratir(ID id){
+		String prefix = "";
+		if(id instanceof IDBaseDecorator){
+			IDBaseDecorator decorator = (IDBaseDecorator) id;
+			if(DecoratorType.Prefix == decorator.getDecoratorType()){
+				prefix = decorator.getExtraValue();
+			} else{
+				prefix = getPrefixFromDecoratir(decorator);
+			}
+		}
+		return prefix;
+	}
+	
 	private void setPrefixIntoClonedParts(LinkedList<FormatPart> clonedParts, String prefix){
 		for(FormatPart part: clonedParts){
 			if(part.isPrefix()){
@@ -193,11 +213,6 @@ public class SimpleIDFormat implements IDFormat{
 			newParts.add(part.clone());
 		}
 		return newParts;
-	}
-
-	@Override
-	public String formatID(PrefixedID id){
-		return formatID(id, id.getPrefix());
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format.parts;
 
 import org.apache.commons.lang3.StringUtils;
 

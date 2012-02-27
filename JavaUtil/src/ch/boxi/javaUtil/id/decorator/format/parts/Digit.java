@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format.parts;
 
 public class Digit extends FormatPart{
 	public String digit = "";

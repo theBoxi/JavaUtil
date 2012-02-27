@@ -1,4 +1,5 @@
-package ch.boxi.javaUtil.id.checkDigit;
+package ch.boxi.javaUtil.id.decorator.checkdigit.algorythms;
+
 
 public abstract class AbstractCheckDigitAlgorythm implements CheckDigitAlgorythm {
 

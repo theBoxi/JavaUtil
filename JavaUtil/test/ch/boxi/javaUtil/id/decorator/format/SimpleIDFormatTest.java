@@ -1,10 +1,13 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import ch.boxi.javaUtil.id.Format.SimpleIDFormat;
-import ch.boxi.javaUtil.id.Format.Prefix;
+import ch.boxi.javaUtil.id.decorator.format.FormatException;
+import ch.boxi.javaUtil.id.decorator.format.IDFormat;
+import ch.boxi.javaUtil.id.decorator.format.SimpleIDFormat;
+import ch.boxi.javaUtil.id.decorator.format.parts.Prefix;
+import ch.boxi.javaUtil.id.decorator.prefix.PrefixDecorator;
 import static org.junit.Assert.*;
 
 public class SimpleIDFormatTest {
@@ -86,14 +89,14 @@ public class SimpleIDFormatTest {
 	
 	@Test
 	public void testFormat(){
-		assertEquals("#ID-001.234", 	new SimpleIDFormat("{#|prefix|-}0##.###").formatID(new SimpleID(1234), "ID"));
-		assertEquals("ID-1.234", 		new SimpleIDFormat("{prefix|-}###.###").formatID(new SimpleID(1234), "ID"));
-		assertEquals("ID-123.456", 		new SimpleIDFormat("{prefix|-}###.###").formatID(new SimpleID(123456), "ID"));
-		assertEquals("123.ID.456", 		new SimpleIDFormat("###.{prefix}.###").formatID(new SimpleID(123456), "ID"));
-		assertEquals("001.234", 		new SimpleIDFormat("0##{.|prefix}.###").formatID(new SimpleID(1234), ""));
+		assertEquals("#ID-001.234", 	new SimpleIDFormat("{#|prefix|-}0##.###").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
+		assertEquals("ID-1.234", 		new SimpleIDFormat("{prefix|-}###.###").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
+		assertEquals("ID-123.456", 		new SimpleIDFormat("{prefix|-}###.###").formatID(new PrefixDecorator(new SimpleID(123456), "ID")));
+		assertEquals("123.ID.456", 		new SimpleIDFormat("###.{prefix}.###").formatID(new PrefixDecorator(new SimpleID(123456), "ID")));
+		assertEquals("001.234", 		new SimpleIDFormat("0##{.|prefix}.###").formatID(new PrefixDecorator(new SimpleID(1234), "")));
 		
 		try{
-			new SimpleIDFormat("{prefix|-}###.###").formatID(new SimpleID(1234567), "ID");
+			new SimpleIDFormat("{prefix|-}###.###").formatID(new PrefixDecorator(new SimpleID(1234567), "ID"));
 			assertTrue("Exception FormatException", false);
 		}catch(FormatException e){
 			assertTrue(true);
@@ -104,20 +107,20 @@ public class SimpleIDFormatTest {
 	
 	@Test
 	public void testBackslashQuots(){
-		assertEquals("NR:#ID-001.234", 	new SimpleIDFormat("NR:\\#{prefix|-}0##.###").formatID(new SimpleID(1234), "ID"));
-		assertEquals("#ID-001.234", 	new SimpleIDFormat("\\#{prefix|-}0##.###").formatID(new SimpleID(1234), "ID"));
-		assertEquals("ID-001-{234}", 	new SimpleIDFormat("{prefix|-}0##-\\{###\\}").formatID(new SimpleID(1234), "ID"));
-		assertEquals("{ID}-001-234", 	new SimpleIDFormat("{\\{|prefix|\\}-}0##-###").formatID(new SimpleID(1234), "ID"));
+		assertEquals("NR:#ID-001.234", 	new SimpleIDFormat("NR:\\#{prefix|-}0##.###").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
+		assertEquals("#ID-001.234", 	new SimpleIDFormat("\\#{prefix|-}0##.###").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
+		assertEquals("ID-001-{234}", 	new SimpleIDFormat("{prefix|-}0##-\\{###\\}").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
+		assertEquals("{ID}-001-234", 	new SimpleIDFormat("{\\{|prefix|\\}-}0##-###").formatID(new PrefixDecorator(new SimpleID(1234), "ID")));
 	}
 	
 	@Test
 	public void testMultiFormat(){
 		IDFormat idFormat = new SimpleIDFormat("{prefix|-}0##.###");
-		assertEquals("SCN-012.345", idFormat.formatID(new SimpleID(12345), "SCN"));
-		assertEquals("APL-001.234", idFormat.formatID(new SimpleID(1234), "APL"));
+		assertEquals("SCN-012.345", idFormat.formatID(new PrefixDecorator(new SimpleID(12345), "SCN")));
+		assertEquals("APL-001.234", idFormat.formatID(new PrefixDecorator(new SimpleID(1234), "APL")));
 		
 		idFormat = new SimpleIDFormat("{prefix|-}###.###");
-		assertEquals("SCN-12.345", idFormat.formatID(new SimpleID(12345), "SCN"));
-		assertEquals("1.234", idFormat.formatID(new SimpleID(1234), null));
+		assertEquals("SCN-12.345", idFormat.formatID(new PrefixDecorator(new SimpleID(12345), "SCN")));
+		assertEquals("1.234", idFormat.formatID(new PrefixDecorator(new SimpleID(1234), null)));
 	}
 }

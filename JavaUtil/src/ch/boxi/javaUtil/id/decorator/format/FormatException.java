@@ -1,4 +1,4 @@
-package ch.boxi.javaUtil.id.Format;
+package ch.boxi.javaUtil.id.decorator.format;
 
 public class FormatException extends RuntimeException {
 	private static final long serialVersionUID = -8946705615407683759L;
