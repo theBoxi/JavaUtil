@@ -94,6 +94,7 @@ public class SimpleIDFormatTest {
 		assertEquals("ID-123.456", 		new SimpleIDFormat("{prefix|-}###.###").formatID(new PrefixDecorator(new SimpleID(123456), "ID")));
 		assertEquals("123.ID.456", 		new SimpleIDFormat("###.{prefix}.###").formatID(new PrefixDecorator(new SimpleID(123456), "ID")));
 		assertEquals("001.234", 		new SimpleIDFormat("0##{.|prefix}.###").formatID(new PrefixDecorator(new SimpleID(1234), "")));
+		assertEquals("001.234", 		new SimpleIDFormat("0##{.|prefix}.###").formatID(new SimpleID(1234)));
 		
 		try{
 			new SimpleIDFormat("{prefix|-}###.###").formatID(new PrefixDecorator(new SimpleID(1234567), "ID"));
