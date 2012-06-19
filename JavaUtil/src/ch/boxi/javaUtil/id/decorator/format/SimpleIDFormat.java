@@ -192,7 +192,7 @@ public class SimpleIDFormat implements IDFormat{
 			if(DecoratorType.Prefix == decorator.getDecoratorType()){
 				prefix = decorator.getExtraValue();
 			} else{
-				prefix = getPrefixFromDecoratir(decorator);
+				prefix = getPrefixFromDecoratir(decorator.getBase());
 			}
 		}
 		return prefix;
