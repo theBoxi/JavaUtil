@@ -31,6 +31,20 @@ public abstract class IDBaseDecorator implements ID {
 		return baseID.getLongValue();
 	}
 	
+	public <T extends IDBaseDecorator> T getIDBaseDecorator(ID id, DecoratorType type){
+		if(id instanceof IDBaseDecorator){
+			IDBaseDecorator decorator = (IDBaseDecorator) id;
+			if(type == decorator.getDecoratorType()){
+				@SuppressWarnings("unchecked")
+				T returnValue = (T)decorator;
+				return returnValue;
+			} else{
+				return getIDBaseDecorator(decorator.getBase(), type);
+			}
+		}
+		return null;
+	}
+	
 	public abstract DecoratorType getDecoratorType();
 	
 	public abstract String getExtraValue();
