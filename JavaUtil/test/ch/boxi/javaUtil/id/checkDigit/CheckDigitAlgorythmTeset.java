@@ -6,24 +6,32 @@ import org.junit.Test;
 import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.CheckDigitAlgorythm;
 import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.Mod11Algorythm;
 import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.Mod9710Algorythm;
+import ch.boxi.javaUtil.id.decorator.checkdigit.algorythms.NoCheckAlgorythm;
 
 public class CheckDigitAlgorythmTeset {
 
 	@Test
 	public void testMod11Algo(){
-		assertCheckDigitAlgorythm(new Mod11Algorythm());
+		assertCheckDigitAlgorythm(new Mod11Algorythm(), true);
 	}
 	
 	@Test
 	public void testMod9710Algorythm(){
-		assertCheckDigitAlgorythm(new Mod9710Algorythm());
+		assertCheckDigitAlgorythm(new Mod9710Algorythm(), true);
 	}
 	
-	public void assertCheckDigitAlgorythm(CheckDigitAlgorythm algorythm){
+	@Test
+	public void testNoCheckAlgorythm(){
+		assertCheckDigitAlgorythm(new NoCheckAlgorythm(), false);
+	}
+	
+	public void assertCheckDigitAlgorythm(CheckDigitAlgorythm algorythm, boolean doBadChecks){
 		long idwithoutDigit = 1234l;
 		long idwithdigit = algorythm.AddCheckDigit(idwithoutDigit);
 		Assert.assertTrue(algorythm.isValidID(idwithdigit));
-		Assert.assertFalse(algorythm.isValidID(idwithdigit + 10));
+		if(doBadChecks){
+			Assert.assertFalse(algorythm.isValidID(idwithdigit + 10));
+		}
 		
 		String idWith = Long.toString(idwithdigit);
 		String idWithout = Long.toString(idwithoutDigit);
