@@ -35,11 +35,4 @@ public abstract class AbstractCheckDigitAlgorythm implements CheckDigitAlgorythm
 		Double pow = Math.pow(10, getCheckDigitSize());
 		return pow.longValue(); 
 	}
-
-	/**
-	 * Calculate the CheckDigit for the id
-	 * @param id real number without checkdigit in it
-	 * @return the checkdigit
-	 */
-	public abstract long calcCheckDigit(long id);	
 }

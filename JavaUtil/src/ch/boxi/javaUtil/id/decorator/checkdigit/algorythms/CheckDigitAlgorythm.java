@@ -30,6 +30,13 @@ public interface CheckDigitAlgorythm {
 	public long AddCheckDigit(long id);
 	
 	/**
+	 * Calculate the CheckDigit for the id
+	 * @param id real number without checkdigit in it
+	 * @return the checkdigit
+	 */
+	public long calcCheckDigit(long id);
+	
+	/**
 	 * Returns the count of checkDigits
 	 * @return
 	 */
